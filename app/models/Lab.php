@@ -9,31 +9,54 @@ class Lab
     }
 
     // Create a new lab
-    public function createLab($name, $location, $capacity, $description, $institution, $campus, $specialization, $manager_id, $creator_id, $lab_image): bool
-    {
+    public function createLab(
+        string $name,
+        string $location,
+        int $capacity,
+        string $description,
+        string $institution,
+        string $campus,
+        string $specialization,
+        int $creator_id
+    ): bool {
         try {
             $stmt = $this->pdo->prepare(
-                "INSERT INTO labs (lab_name, lab_description, lab_location) 
-                VALUES (?, ?, ?)"
+                "INSERT INTO labs 
+            (name, location, capacity, description, institution, campus, specialization, creator_id) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
             );
-            $stmt->execute([$lab_name, $lab_description, $lab_location]);
+
+            $stmt->execute([
+                $name,
+                $location,
+                $capacity,
+                $description,
+                $institution,
+                $campus,
+                $specialization,
+                $creator_id
+            ]);
+
             return true;
-        } catch (Exception $e) {
+        } catch (PDOException $e) {
+            error_log("Error creating lab: " . $e->getMessage());
             return false;
         }
     }
+
     // Get all labs
     public function getAllLabs(): array
     {
         $stmt = $this->pdo->prepare("SELECT * FROM labs");
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll();
     }
+
     // Get lab by ID
     public function getLabById($lab_id): ?array
     {
         $stmt = $this->pdo->prepare("SELECT * FROM labs WHERE lab_id = ?");
         $stmt->execute([$lab_id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->fetch();
     }
 }
