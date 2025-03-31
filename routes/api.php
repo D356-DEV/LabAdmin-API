@@ -5,6 +5,7 @@ header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 require_once __DIR__ . "/../app/controllers/UserController.php";
+require_once __DIR__ . "/../app/controllers/LabController.php";
 
 // Get request method and path
 $method = $_SERVER['REQUEST_METHOD'];
@@ -13,6 +14,7 @@ $segments = explode("/", trim($path, "/"));
 
 // Controller´s instances 
 $userController = new UserController($pdo);
+$labController = new LabController($pdo);
 
 switch ($segments[0]) {
 
@@ -63,9 +65,9 @@ switch ($segments[0]) {
         switch ($method) {
             case "GET":
                 if ($segments[1] === "get_labs") {
-                    $userController->getLabs();
+                    $labController->getAllLabs();
                 } elseif ($segments[1] === "get_lab") {
-                    $userController->getLab();
+                    $labController->getLabById();
                 } else {
                     echo json_encode(["status" => "error", "message" => "Invalid labs GET action"]);
                 }
@@ -73,11 +75,7 @@ switch ($segments[0]) {
 
             case "POST":
                 if ($segments[1] === "create_lab") {
-                    $userController->createLab();
-                } elseif ($segments[1] === "update_lab") {
-                    $userController->updateLab();
-                } elseif ($segments[1] === "delete_lab") {
-                    $userController->deleteLab();
+                    $labController->createLab();
                 } else {
                     echo json_encode(["status" => "error", "message" => "Invalid labs POST action"]);
                 }
