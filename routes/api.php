@@ -102,7 +102,13 @@ switch ($segments[0]) {
                     echo json_encode(["status" => "error", "message" => "Invalid bot GET action"]);
                 }
                 break;
-
+            case "POST":
+                if ($segments[1] === "handle_question") {
+                    $botController->handleQuestion();
+                } else {
+                    echo json_encode(["status" => "error", "message" => "Invalid bot POST action"]);
+                }
+                break;
             default:
                 echo json_encode(["status" => "error", "message" => "Invalid method for bot endpoint"]);
         }
