@@ -185,7 +185,7 @@ class ChatBot {
     private function generarRespuesta($witData, $laboratorios) {
         $intencion = $witData['intents'][0]['name'] ?? 'desconocida';
         $lab = $witData['entities']['laboratorio:laboratorio'][0]['body'] ?? '';
-        $supervisor = $witData['entities']['supervisor:supervisor'][0]['body'] ?? '';  // Needs updating
+        $supervisor = $witData['entities']['supervisor:supervisor'][0]['body'] ?? ''; //aqui cambio
         $hora = $witData['entities']['datetime:datetime'][0]['value'] ?? null;
 
         $this->logMessage("Generando respuesta para: Intención=$intencion, Laboratorio=$lab, Supervisor=$supervisor, Hora=$hora");
