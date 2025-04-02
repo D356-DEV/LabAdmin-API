@@ -6,8 +6,7 @@ define('DB_ENDPOINT', 'https://api.d356.dev/bot/get_dataset');
 define('WIT_API_VERSION', '20240215');
 define('LOG_FILE', __DIR__ . '/bot_logs.log');
 
-
-class BotHandler {
+class ChatBot {
     
     public function __construct() {
     }
