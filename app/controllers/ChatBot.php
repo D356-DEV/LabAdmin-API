@@ -22,14 +22,7 @@ class ChatBot {
         try {
             $this->logMessage("Iniciando solicitud");
 
-            if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-                throw new Exception('Método no permitido', 405);
-            }
-
             $input = json_decode(file_get_contents('php://input'), true);
-            if (json_last_error() !== JSON_ERROR_NONE) {
-                throw new Exception('Formato JSON inválido', 400);
-            }
 
             $pregunta = trim($input['message'] ?? '');
             $this->logMessage("Pregunta recibida: $pregunta");
@@ -227,7 +220,3 @@ class ChatBot {
         ]);
     }
 }
-
-// Instanciar la clase y manejar la solicitud
-$botHandler = new BotHandler();
-$botHandler->handleQuestion();
