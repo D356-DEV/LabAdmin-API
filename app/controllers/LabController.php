@@ -85,8 +85,6 @@ class LabController
             ]);
             return;
         }
-
-        $lab_id = (int) $lab_id;
         
         if ($lab_id <= 0) {
             http_response_code(400);

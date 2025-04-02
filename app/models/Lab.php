@@ -55,8 +55,11 @@ class Lab
     // Get lab by ID
     public function getLabById($lab_id): ?array
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM labs WHERE lab_id = ?");
-        $stmt->execute([$lab_id]);
-        return $stmt->fetch();
+        $stmt = $this->pdo->prepare("SELECT * FROM labs WHERE lab_id = :lab_id");
+        $stmt->bindParam(':lab_id', $lab_id);
+        $stmt->execute();
+        $lab = $stmt->fetch();
+        return $lab ?: null;
     }
+
 }

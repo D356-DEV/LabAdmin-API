@@ -1,7 +1,6 @@
 <?php
 require __DIR__ . "/../models/User.php";
 require __DIR__ . "/../../config/db.php";
-require_once __DIR__ . "/../utils/Mailer.php";
 
 class UserController
 {
