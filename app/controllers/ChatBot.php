@@ -1,6 +1,4 @@
 <?php
-header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
 
 // Configuración
 define('WIT_TOKEN', '6V4NUA63YM4WRZU6AQPVIOOTJHUTWPVF');

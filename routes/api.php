@@ -6,8 +6,6 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 require_once __DIR__ . "/../app/controllers/UserController.php";
 require_once __DIR__ . "/../app/controllers/LabController.php";
-require_once __DIR__ . "/../app/controllers/BotController.php";
-require_once __DIR__ . "/../app/controllers/ChatBot.php";
 
 // Get request method and path
 $method = $_SERVER['REQUEST_METHOD'];
@@ -17,7 +15,6 @@ $segments = explode("/", trim($path, "/"));
 // Controller´s instances 
 $userController = new UserController($pdo);
 $labController = new LabController($pdo);
-$botController = new BotController($pdo);
 
 switch ($segments[0]) {
 
@@ -89,7 +86,7 @@ switch ($segments[0]) {
         }
         break;
     
-    // BOT ENDPOINTS
+    /* BOT ENDPOINTS
     case "bot":
         if (!isset($segments[1])) {
             echo json_encode(["status" => "error", "message" => "Missing bot action"]);
@@ -105,7 +102,7 @@ switch ($segments[0]) {
                 break;
             case "POST":
                 if ($segments[1] === "handle_question") {
-                    handleQuestion();
+                    $botHandler->handleQuestion();
                 } else {
                     echo json_encode(["status" => "error", "message" => "Invalid bot POST action"]);
                 }
@@ -114,7 +111,7 @@ switch ($segments[0]) {
                 echo json_encode(["status" => "error", "message" => "Invalid method for bot endpoint"]);
         }
         break;
-        
+    */
     // DEFAULT CASE
     default:
         echo json_encode(["status" => "error", "message" => "Invalid endpoint"]);
