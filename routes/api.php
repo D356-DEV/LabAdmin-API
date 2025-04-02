@@ -7,6 +7,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 require_once __DIR__ . "/../app/controllers/UserController.php";
 require_once __DIR__ . "/../app/controllers/LabController.php";
 require_once __DIR__ . "/../app/controllers/BotController.php";
+require_once __DIR__ . "/../app/controllers/ChatBot.php";
 
 // Get request method and path
 $method = $_SERVER['REQUEST_METHOD'];
@@ -104,7 +105,7 @@ switch ($segments[0]) {
                 break;
             case "POST":
                 if ($segments[1] === "handle_question") {
-                    $botController->handleQuestion();
+                    handleQuestion();
                 } else {
                     echo json_encode(["status" => "error", "message" => "Invalid bot POST action"]);
                 }
