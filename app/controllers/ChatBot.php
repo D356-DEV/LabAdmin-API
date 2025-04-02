@@ -97,13 +97,34 @@ class BotHandler {
     }
 
     private function obtenerLaboratorios() {
-        // Here you would fetch data from the database or an external API
-        $datos = [];  // Replace with actual data fetching
-        if (empty($datos)) {
+        $this->logMessage("Intentando obtener datos de laboratorios desde: " . DB_ENDPOINT);
+        
+        $context = stream_context_create([
+            'http' => [
+                'timeout' => 5,
+                'header' => "Content-Type: application/json\r\n"
+            ]
+        ]);
+        
+        $response = @file_get_contents(DB_ENDPOINT, false, $context);
+        
+        if ($response === false) {
+            $this->logMessage("Error al conectar con la API de laboratorios");
+            throw new Exception('Error al obtener datos de laboratorios', 500);
+        }
+        
+        $datos = json_decode($response, true);
+        
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            $this->logMessage("Respuesta inválida de la API de laboratorios");
+            throw new Exception('Respuesta inválida de la API de laboratorios', 500);
+        }
+        
+        if (empty($datos) || !isset($datos['data'])) {
             $this->logMessage("No se encontraron laboratorios en la base de datos");
             throw new Exception('No se encontraron laboratorios en la base de datos', 404);
         }
-
+        
         return $datos;
     }
 
