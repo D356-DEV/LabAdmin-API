@@ -1,4 +1,6 @@
 <?php
+
+use BcMath\Number;
 class User
 {
     private $pdo;
@@ -100,6 +102,41 @@ class User
         return $user ?: null;
     }
 
+    // Update Password
+    public function updatePassword(int $user_id, string $password, string $session_token): bool
+    {
+        $password = trim($password);
+        if (strlen($password) < 8) return false;
+    
+        $password_hash = password_hash($password, PASSWORD_DEFAULT);
+    
+        $stmt = $this->pdo->prepare("UPDATE users SET password_hash = :password_hash WHERE user_id = :user_id AND session_token = :session_token");
+        $stmt->execute([
+            ':password_hash' => $password_hash,
+            ':user_id' => $user_id,
+            ':session_token' => $session_token
+        ]);
+    
+        return $stmt->rowCount() > 0;
+    }
+    
+
+    public function updateEmail(int $user_id, string $email, string $session_token): bool
+    {
+        $email = trim($email);
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) return false;
+    
+        $stmt = $this->pdo->prepare("UPDATE users SET email = :email WHERE user_id = :user_id AND session_token = :session_token");
+        $stmt->execute([
+            ':email' => $email,
+            ':user_id' => $user_id,
+            ':session_token' => $session_token
+        ]);
+    
+        return $stmt->rowCount() > 0;
+    }
+    
+    
     // Is email already in use?
     public function emailInUse($email): bool
     {

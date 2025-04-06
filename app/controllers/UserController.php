@@ -209,6 +209,90 @@ class UserController
         ]);
     }
 
+    // Update Password
+    public function updatePassword(): void
+    {
+        $session_token = $this->getBearerToken();
+
+        if (empty($session_token)) {
+            echo json_encode([
+                "status" => "error",
+                "message" => "Empty session token"
+            ]);
+            return;
+        }
+
+        $data = json_decode(file_get_contents("php://input"), true);
+
+        if (empty($data['user_id'])) {
+            echo json_encode([
+                "status" => "error",
+                "message" => "Missing user_id"
+            ]);
+            return;
+        }
+
+        if (empty($data['password'])){
+            echo json_encode([
+                "status" => "error",
+                "message" => "Missing password"
+            ]);
+            return;
+        }
+
+        $user = $this->userModel->updatePassword($data['user_id'], $data['password'], $session_token);
+
+        echo json_encode($user ? [
+            "status" => "success",
+            "message" => "User password updated successfully"
+        ] : [
+            "status" => "error",
+            "message" => "User password was not updated"
+        ]);
+    }
+
+    // Update Email
+    public function updateEmail(): void
+    {
+        $session_token = $this->getBearerToken();
+
+        if (empty($session_token)) {
+            echo json_encode([
+                "status" => "error",
+                "message" => "Empty session token"
+            ]);
+            return;
+        }
+
+        $data = json_decode(file_get_contents("php://input"), true);
+
+        if (empty($data['user_id'])) {
+            echo json_encode([
+                "status" => "error",
+                "message" => "Missing user_id"
+            ]);
+            return;
+        }
+
+        if (empty($data['email'])){
+            echo json_encode([
+                "status" => "error",
+                "message" => "Missing email"
+            ]);
+            return;
+        }
+
+        $user = $this->userModel->updateEmail($data['user_id'], $data['email'], $session_token);
+
+        echo json_encode($user ? [
+            "status" => "success",
+            "message" => "User email updated successfully"
+        ] : [
+            "status" => "error",
+            "message" => "User email was not updated"
+        ]);
+    }
+
     // Verify Email
     public function verifyEmail(): void
     {

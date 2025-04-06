@@ -118,6 +118,6 @@ switch ($segments[0]) {
         break;
     // DEFAULT CASE
     default:
-        echo json_encode(["status" => "error", "message" => "Invalid endpoint"]);
+        echo json_encode(["status" => "succes", "message" => "You are reaching the LabAdmin API!"]);
         break;
 }
