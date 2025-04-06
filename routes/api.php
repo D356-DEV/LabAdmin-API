@@ -49,6 +49,10 @@ switch ($segments[0]) {
                     $userController->verifyToken();
                 } elseif ($segments[1] === "get_user") {
                     $userController->getUser();
+                } elseif ($segments[1] === "update_password") {
+                    $userController->updatePassword();
+                } elseif ($segments[1] === "update_email") {
+                    $userController->updateEmail();
                 } elseif ($segments[1] === "profile_image") {
                     $userController->updateProfileImage();
                 } else {
