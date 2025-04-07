@@ -1,6 +1,4 @@
 <?php
-
-use BcMath\Number;
 class User
 {
     private $pdo;
@@ -135,7 +133,6 @@ class User
     
         return $stmt->rowCount() > 0;
     }
-    
     
     // Is email already in use?
     public function emailInUse($email): bool

@@ -5,9 +5,10 @@ header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 require_once __DIR__ . "/../app/controllers/UserController.php";
+require_once __DIR__ . "/../app/controllers/AdminController.php";
 require_once __DIR__ . "/../app/controllers/LabController.php";
-require_once __DIR__ . "/../app/controllers/ChatBot.php";
 require_once __DIR__ . "/../app/controllers/BotController.php";
+require_once __DIR__ . "/../app/controllers/ChatBot.php";
 
 
 // Get request method and path
@@ -17,6 +18,7 @@ $segments = explode("/", trim($path, "/"));
 
 // Controller´s instances 
 $userController = new UserController($pdo);
+$adminController = new AdminController($pdo);
 $labController = new LabController($pdo);
 $botController = new BotController($pdo);
 $chatBot = new ChatBot();
@@ -62,6 +64,26 @@ switch ($segments[0]) {
 
             default:
                 echo json_encode(["status" => "error", "message" => "Invalid method for users endpoint"]);
+        }
+        break;
+
+    case "admins":
+        if (!isset($segments[1])) {
+            echo json_encode(["status" => "error", "message" => "Missing admins action"]);
+            exit;
+        }
+        switch ($method) {
+            case "GET":
+                if ($segments[1] === "is_admin") {
+                    $adminController->isUserAdmin();
+                } elseif ($segments[1] === "get_by_user") {
+                    $adminController->getAdminByUser();
+                } else {
+                    echo json_encode(["status" => "error", "message" => "Invalid admins GET action"]);
+                }
+                break;
+            default:
+                echo json_encode(["status" => "error", "message" => "Invalid method for admins endpoint"]);
         }
         break;
 
