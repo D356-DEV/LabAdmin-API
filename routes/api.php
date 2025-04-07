@@ -122,6 +122,6 @@ switch ($segments[0]) {
         break;
     // DEFAULT CASE
     default:
-        echo json_encode(["status" => "succes", "message" => "You are reaching the LabAdmin API!"]);
+        echo json_encode(["status" => "success", "message" => "You are reaching the LabAdmin API!"]);
         break;
 }
