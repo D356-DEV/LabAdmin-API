@@ -99,6 +99,8 @@ switch ($segments[0]) {
                     $labController->getAllLabs();
                 } elseif ($segments[1] === "get_lab") {
                     $labController->getLabById();
+                } elseif ($segments[1] === "creator_labs"){
+                    $labController->getCreatorLabs();
                 } else {
                     echo json_encode(["status" => "error", "message" => "Invalid labs GET action"]);
                 }

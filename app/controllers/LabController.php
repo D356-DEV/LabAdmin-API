@@ -85,7 +85,7 @@ class LabController
             ]);
             return;
         }
-        
+
         if ($lab_id <= 0) {
             http_response_code(400);
             echo json_encode([
@@ -94,9 +94,9 @@ class LabController
             ]);
             return;
         }
-        
+
         $lab = $this->labModel->getLabById($lab_id);
-        
+
         if ($lab) {
             http_response_code(200);
             echo json_encode([
@@ -111,4 +111,42 @@ class LabController
             ]);
         }
     }
+
+    // Get Creator Labs
+    public function getCreatorLabs(): void
+    {
+        if (!isset($_GET['admin_id'])) {
+            echo json_encode([
+                "status" => "error",
+                "message" => "The admin_id is missing"
+            ]);
+            return;
+        }
+
+        $admin_id = (int) $_GET['admin_id'];
+
+        if ($admin_id < 1) {
+            echo json_encode([
+                "status" => "error",
+                "message" => "The admin_id must be greater than 0"
+            ]);
+            return;
+        }
+
+        $result = $this->labModel->getCreatorLabs($admin_id);
+
+        if (!empty($result)) {
+            echo json_encode([
+                "status" => "success",
+                "message" => "The creator labs have been retrieved successfully",
+                "data" => $result
+            ]);
+        } else {
+            echo json_encode([
+                "status" => "error",
+                "message" => "No labs found for this admin_id"
+            ]);
+        }
+    }
+
 }

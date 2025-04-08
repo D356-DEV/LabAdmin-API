@@ -62,4 +62,22 @@ class Lab
         return $lab ?: null;
     }
 
+    // Get labs created by a specific admin
+    public function getCreatorLabs(int $admin_id): ?array
+    {
+        if ($admin_id < 0)
+            return null;
+
+        $check_id = $this->pdo->prepare("SELECT 1 FROM admins WHERE admin_id = :admin_id LIMIT 1");
+        $check_id->execute([":admin_id" => $admin_id]);
+
+        if ($check_id->fetch()) {
+            $stmt = $this->pdo->prepare("SELECT * FROM labs WHERE creator_id = :admin_id");
+            $stmt->execute([":admin_id" => $admin_id]);
+            return $stmt->fetchAll();
+        }
+
+        return null;
+    }
+
 }
