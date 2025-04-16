@@ -10,7 +10,6 @@ require_once __DIR__ . "/../app/controllers/LabController.php";
 require_once __DIR__ . "/../app/controllers/BotController.php";
 require_once __DIR__ . "/../app/controllers/ChatBot.php";
 
-
 // Get request method and path
 $method = $_SERVER['REQUEST_METHOD'];
 $path = explode("?", $_SERVER['REQUEST_URI'], 2)[0];
@@ -53,6 +52,22 @@ switch ($segments[0]) {
                     $userController->getUser();
                 } elseif ($segments[1] === "update_password") {
                     $userController->updatePassword();
+                } elseif ($segments[1] === "update_first_name") {
+                    $userController->updateFirstName();
+                } elseif ($segments[1] === "update_last_name") {
+                    $userController->updateLastName();
+                } elseif ($segments[1] === "update_birth_date") {
+                    $userController->updateBirthDate();
+                } elseif ($segments[1] === "update_institution") {
+                    $userController->updateInstitution();
+                } elseif ($segments[1] === "update_campus") {
+                    $userController->updateCampus();
+                } elseif ($segments[1] === "update_student_code") {
+                    $userController->updateStudentCode();
+                } elseif ($segments[1] === "update_student_carreer") {
+                    $userController->updateStudentCarreer();
+                } elseif ($segments[1] === "update_phone") {
+                    $userController->updatePhone();
                 } elseif ($segments[1] === "update_email") {
                     $userController->updateEmail();
                 } elseif ($segments[1] === "profile_image") {
@@ -99,7 +114,7 @@ switch ($segments[0]) {
                     $labController->getAllLabs();
                 } elseif ($segments[1] === "get_lab") {
                     $labController->getLabById();
-                } elseif ($segments[1] === "creator_labs"){
+                } elseif ($segments[1] === "creator_labs") {
                     $labController->getCreatorLabs();
                 } else {
                     echo json_encode(["status" => "error", "message" => "Invalid labs GET action"]);

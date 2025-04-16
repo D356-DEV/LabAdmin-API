@@ -232,7 +232,7 @@ class UserController
             return;
         }
 
-        if (empty($data['password'])){
+        if (empty($data['password'])) {
             echo json_encode([
                 "status" => "error",
                 "message" => "Missing password"
@@ -248,6 +248,270 @@ class UserController
         ] : [
             "status" => "error",
             "message" => "User password was not updated"
+        ]);
+    }
+
+    public function updateFirstName(): void
+    {
+        $session_token = $this->getBearerToken();
+
+        if (empty($session_token)) {
+            echo json_encode([
+                "status" => "error",
+                "message" => "Empty session token"
+            ]);
+            return;
+        }
+
+        $data = json_decode(file_get_contents("php://input"), true);
+
+        if (empty($data['user_id']) || empty($data['first_name'])) {
+            echo json_encode([
+                "status" => "error",
+                "message" => "Missing user_id or first_name"
+            ]);
+            return;
+        }
+
+        $updated = $this->userModel->updateFirstName($data['user_id'], $data['first_name'], $session_token);
+
+        echo json_encode($updated ? [
+            "status" => "success",
+            "message" => "First name updated successfully"
+        ] : [
+            "status" => "error",
+            "message" => "First name was not updated"
+        ]);
+    }
+
+    public function updateLastName(): void
+    {
+        $session_token = $this->getBearerToken();
+
+        if (empty($session_token)) {
+            echo json_encode([
+                "status" => "error",
+                "message" => "Empty session token"
+            ]);
+            return;
+        }
+
+        $data = json_decode(file_get_contents("php://input"), true);
+
+        if (empty($data['user_id']) || empty($data['last_name'])) {
+            echo json_encode([
+                "status" => "error",
+                "message" => "Missing user_id or last_name"
+            ]);
+            return;
+        }
+
+        $updated = $this->userModel->updateLastName($data['user_id'], $data['last_name'], $session_token);
+
+        echo json_encode($updated ? [
+            "status" => "success",
+            "message" => "Last name updated successfully"
+        ] : [
+            "status" => "error",
+            "message" => "Last name was not updated"
+        ]);
+    }
+
+    public function updateBirthDate(): void
+    {
+        $session_token = $this->getBearerToken();
+
+        if (empty($session_token)) {
+            echo json_encode([
+                "status" => "error",
+                "message" => "Empty session token"
+            ]);
+            return;
+        }
+
+        $data = json_decode(file_get_contents("php://input"), true);
+
+        if (empty($data['user_id']) || empty($data['birth_date'])) {
+            echo json_encode([
+                "status" => "error",
+                "message" => "Missing user_id or birth_date"
+            ]);
+            return;
+        }
+
+        $updated = $this->userModel->updateBirthDate($data['user_id'], $data['birth_date'], $session_token);
+
+        echo json_encode($updated ? [
+            "status" => "success",
+            "message" => "Birth date updated successfully"
+        ] : [
+            "status" => "error",
+            "message" => "Birth date was not updated"
+        ]);
+    }
+
+    public function updateInstitution(): void
+    {
+        $session_token = $this->getBearerToken();
+
+        if (empty($session_token)) {
+            echo json_encode([
+                "status" => "error",
+                "message" => "Empty session token"
+            ]);
+            return;
+        }
+
+        $data = json_decode(file_get_contents("php://input"), true);
+
+        if (empty($data['user_id']) || empty($data['institution'])) {
+            echo json_encode([
+                "status" => "error",
+                "message" => "Missing user_id or institution"
+            ]);
+            return;
+        }
+
+        $updated = $this->userModel->updateInstitution($data['user_id'], $data['institution'], $session_token);
+
+        echo json_encode($updated ? [
+            "status" => "success",
+            "message" => "Institution updated successfully"
+        ] : [
+            "status" => "error",
+            "message" => "Institution was not updated"
+        ]);
+    }
+
+    public function updateCampus(): void
+    {
+        $session_token = $this->getBearerToken();
+
+        if (empty($session_token)) {
+            echo json_encode([
+                "status" => "error",
+                "message" => "Empty session token"
+            ]);
+            return;
+        }
+
+        $data = json_decode(file_get_contents("php://input"), true);
+
+        if (empty($data['user_id']) || empty($data['campus'])) {
+            echo json_encode([
+                "status" => "error",
+                "message" => "Missing user_id or campus"
+            ]);
+            return;
+        }
+
+        $updated = $this->userModel->updateCampus($data['user_id'], $data['campus'], $session_token);
+
+        echo json_encode($updated ? [
+            "status" => "success",
+            "message" => "Campus updated successfully"
+        ] : [
+            "status" => "error",
+            "message" => "Campus was not updated"
+        ]);
+    }
+
+    public function updateStudentCode(): void
+    {
+        $session_token = $this->getBearerToken();
+
+        if (empty($session_token)) {
+            echo json_encode([
+                "status" => "error",
+                "message" => "Empty session token"
+            ]);
+            return;
+        }
+
+        $data = json_decode(file_get_contents("php://input"), true);
+
+        if (empty($data['user_id']) || empty($data['student_code'])) {
+            echo json_encode([
+                "status" => "error",
+                "message" => "Missing user_id or student_code"
+            ]);
+            return;
+        }
+
+        $updated = $this->userModel->updateStudentCode($data['user_id'], $data['student_code'], $session_token);
+
+        echo json_encode($updated ? [
+            "status" => "success",
+            "message" => "Student code updated successfully"
+        ] : [
+            "status" => "error",
+            "message" => "Student code was not updated"
+        ]);
+    }
+
+    public function updateStudentCarreer(): void
+    {
+        $session_token = $this->getBearerToken();
+
+        if (empty($session_token)) {
+            echo json_encode([
+                "status" => "error",
+                "message" => "Empty session token"
+            ]);
+            return;
+        }
+
+        $data = json_decode(file_get_contents("php://input"), true);
+
+        if (empty($data['user_id']) || empty($data['student_carreer'])) {
+            echo json_encode([
+                "status" => "error",
+                "message" => "Missing user_id or student_carreer"
+            ]);
+            return;
+        }
+
+        $updated = $this->userModel->updateStudentCarreer($data['user_id'], $data['student_carreer'], $session_token);
+
+        echo json_encode($updated ? [
+            "status" => "success",
+            "message" => "Student carreer updated successfully"
+        ] : [
+            "status" => "error",
+            "message" => "Student carreer was not updated"
+        ]);
+    }
+
+    public function updatePhone(): void
+    {
+        $session_token = $this->getBearerToken();
+
+        if (empty($session_token)) {
+            echo json_encode([
+                "status" => "error",
+                "message" => "Empty session token"
+            ]);
+            return;
+        }
+
+        $data = json_decode(file_get_contents("php://input"), true);
+
+        if (empty($data['user_id']) || empty($data['phone'])) {
+            echo json_encode([
+                "status" => "error",
+                "message" => "Missing user_id or phone"
+            ]);
+            return;
+        }
+
+        $updated = $this->userModel->updatePhone($data['user_id'], $data['phone'], $session_token);
+
+        echo json_encode($updated ? [
+            "status" => "success",
+            "message" => "Phone updated successfully"
+        ] : [
+            "status" => "error",
+            "message" => "Phone was not updated"
         ]);
     }
 
@@ -274,7 +538,7 @@ class UserController
             return;
         }
 
-        if (empty($data['email'])){
+        if (empty($data['email'])) {
             echo json_encode([
                 "status" => "error",
                 "message" => "Missing email"

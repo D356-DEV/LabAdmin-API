@@ -1,6 +1,5 @@
 <?php
 
-use BcMath\Number;
 require __DIR__ . '/../models/Admin.php';
 require __DIR__ . '/../../config/db.php';
 
