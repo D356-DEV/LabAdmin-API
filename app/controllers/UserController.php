@@ -2,6 +2,12 @@
 require __DIR__ . "/../models/User.php";
 require __DIR__ . "/../../config/db.php";
 
+require_once __DIR__ . '/../utils/PHPMailer/PHPMailer.php';
+require_once __DIR__ . '/../utils/PHPMailer/Exception.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 class UserController
 {
     private $userModel;
@@ -249,6 +255,79 @@ class UserController
             "status" => "error",
             "message" => "User password was not updated"
         ]);
+    }
+
+    // Reset password and send to email
+    public function resetPassword(): void
+    {
+        $data = json_decode(file_get_contents("php://input"), true);
+
+        if (empty($data['email'])) {
+            echo json_encode([
+                "status" => "error",
+                "message" => "The email is missing"
+            ]);
+            return;
+        }
+
+        $email = trim($data['email']);
+
+        if (!$this->userModel->emailInUse($email)) {
+            echo json_encode([
+                "status" => "error",
+                "message" => "The email is not valid"
+            ]);
+            return;
+        }
+
+        // Generar nueva contraseña
+        $password = bin2hex(random_bytes(4)); // 8 caracteres aleatorios
+        $password_hash = password_hash($password, PASSWORD_DEFAULT);
+
+        // Enviar correo
+        $mail = new PHPMailer(true);
+        try {
+            $mail->isMail();
+            $mail->setFrom('noreply@labadmin.mx', 'LabAdmin');
+            $mail->addAddress($email);
+            $mail->Subject = 'LabAdmin - New Password';
+            $mail->Body = "Your new password is: $password";
+            $mail->AltBody = "Your new password is: $password";
+
+            if ($mail->send()) {
+                try {
+                    $update = $this->userModel->updatePasswordNoToken($email, $password_hash);
+                    if ($update) {
+                        echo json_encode([
+                            "status" => "success",
+                            "message" => "Password has been reset and sent to your email."
+                        ]);
+                    } else {
+                        echo json_encode([
+                            "status" => "error",
+                            "message" => "Failed to update password in the database."
+                        ]);
+                    }
+
+                } catch (PDOException $e) {
+                    error_log('ERROR USER UPDATE: ' . $e->getMessage());
+                    echo json_encode([
+                        "status" => "error",
+                        "message" => "Database error during password update."
+                    ]);
+                }
+            } else {
+                echo json_encode([
+                    "status" => "error",
+                    "message" => "Failed to send email. " . $mail->ErrorInfo
+                ]);
+            }
+        } catch (Exception $e) {
+            echo json_encode([
+                "status" => "error",
+                "message" => "Mailer exception. " . $e->getMessage()
+            ]);
+        }
     }
 
     public function updateFirstName(): void

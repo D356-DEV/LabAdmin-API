@@ -72,7 +72,10 @@ switch ($segments[0]) {
                     $userController->updateEmail();
                 } elseif ($segments[1] === "profile_image") {
                     $userController->updateProfileImage();
-                } else {
+                } elseif ($segments[1] === "reset_password") {
+                    $userController->resetPassword();
+                }  
+                else {
                     echo json_encode(["status" => "error", "message" => "Invalid users POST action"]);
                 }
                 break;

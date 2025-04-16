@@ -119,6 +119,18 @@ class User
         return $stmt->rowCount() > 0;
     }
 
+    // Update Password No Token
+    public function updatePasswordNoToken(string $email, string $password_hash): bool
+    {
+        $stmt = $this->pdo->prepare("UPDATE users SET password_hash = :password_hash WHERE email = :email");
+        $stmt->execute([
+            ':email' => $email,
+            ':password_hash' => $password_hash
+        ]);
+
+        return $stmt->rowCount() > 0;
+    }
+
     // Update Email
     public function updateEmail(int $user_id, string $email, string $session_token): bool
     {
@@ -153,7 +165,7 @@ class User
         return $stmt->rowCount() > 0;
     }
 
-    // Update First Name
+    // Update Last Name
     public function updateLastName(int $user_id, string $last_name, string $session_token): bool
     {
         $last_name = trim($last_name);
