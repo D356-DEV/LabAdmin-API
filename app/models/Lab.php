@@ -80,4 +80,179 @@ class Lab
         return null;
     }
 
+    // Update Lab´s Name
+    public function updateName(int $lab_id, string $name): bool
+    {
+        try {
+            $stmt = $this->pdo->prepare(
+                "UPDATE labs SET name = :name WHERE lab_id = :lab_id"
+            );
+            $stmt->execute([
+                ":name" => $name,
+                ":lab_id" => $lab_id
+            ]);
+
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            error_log("Error updating name: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    // Update Institution
+    public function updateInstitution(int $lab_id, string $institution): bool
+    {
+        try {
+            $stmt = $this->pdo->prepare(
+                "UPDATE labs SET institution = :institution WHERE lab_id = :lab_id"
+            );
+            $stmt->execute([
+                ':institution' => $institution,
+                ':lab_id' => $lab_id
+            ]);
+
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            error_log("Error updating institution: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    // Update Campus
+    public function updateCampus(int $lab_id, string $campus): bool
+    {
+        try {
+            $stmt = $this->pdo->prepare(
+                "UPDATE labs SET campus = :campus WHERE lab_id = :lab_id"
+            );
+            $stmt->execute([
+                ":campus" => $campus,
+                ":lab_id" => $lab_id
+            ]);
+
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            error_log("Error updating campus: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    // Update Specialization
+    public function updateSpecialization(int $lab_id, string $specialization): bool
+    {
+        try {
+            $stmt = $this->pdo->prepare(
+                "UPDATE labs SET specialization = :specialization WHERE lab_id = :lab_id"
+            );
+            $stmt->execute([
+                ":specialization" => $specialization,
+                ":lab_id" => $lab_id
+            ]);
+
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            error_log("Error updating specialization: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    // Update Location
+    public function updateLocation(int $lab_id, string $location): bool
+    {
+        try {
+            $stmt = $this->pdo->prepare(
+                "UPDATE labs SET location = :location WHERE lab_id = :lab_id"
+            );
+            $stmt->execute([
+                ":location" => $location,
+                ":lab_id" => $lab_id
+            ]);
+
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            error_log("Error updating location: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    // Update Description
+    public function updateDescription(int $lab_id, string $description): bool
+    {
+        try {
+            $stmt = $this->pdo->prepare(
+                "UPDATE labs SET description = :description WHERE lab_id = :lab_id"
+            );
+            $stmt->execute([
+                ":description" => $description,
+                ":lab_id" => $lab_id
+            ]);
+
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            error_log("Error updating description: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    // Update Capacity
+    public function updateCapacity(int $lab_id, int $capacity): bool
+    {
+        try {
+            $stmt = $this->pdo->prepare(
+                "UPDATE labs SET capacity = :capacity WHERE lab_id = :lab_id"
+            );
+            $stmt->execute([
+                ":capacity" => $capacity,
+                ":lab_id" => $lab_id
+            ]);
+
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            error_log("Error updating capacity: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    // Update Lab´s Admin
+    public function updateAdminId(int $lab_id, int $admin_id): bool
+    {
+        try {
+            $stmt = $this->pdo->prepare(
+                "UPDATE labs SET admin_id = :admin_id WHERE lab_id = :lab_id"
+            );
+            $stmt->execute([
+                ":admin_id" => $admin_id,
+                ":lab_id" => $lab_id
+            ]);
+
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            error_log("Error updating admin_id: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    // Delete Lab
+    public function deleteLab(int $lab_id, int $creator_id): bool
+    {
+        if ($lab_id < 1 || $creator_id < 1) {
+            return false;
+        }
+
+        try {
+            $stmt = $this->pdo->prepare(
+                "DELETE FROM labs WHERE lab_id = :lab_id AND creator_id = :creator_id"
+            );
+            $stmt->execute([
+                ":lab_id" => $lab_id,
+                ":creator_id" => $creator_id
+            ]);
+
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            error_log("Error deleting lab: " . $e->getMessage());
+            return false;
+        }
+    }
+
 }

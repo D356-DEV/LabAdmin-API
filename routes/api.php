@@ -74,8 +74,7 @@ switch ($segments[0]) {
                     $userController->updateProfileImage();
                 } elseif ($segments[1] === "reset_password") {
                     $userController->resetPassword();
-                }  
-                else {
+                } else {
                     echo json_encode(["status" => "error", "message" => "Invalid users POST action"]);
                 }
                 break;
@@ -85,6 +84,7 @@ switch ($segments[0]) {
         }
         break;
 
+    // ADMINS ENDPOINTS
     case "admins":
         if (!isset($segments[1])) {
             echo json_encode(["status" => "error", "message" => "Missing admins action"]);
@@ -127,6 +127,24 @@ switch ($segments[0]) {
             case "POST":
                 if ($segments[1] === "create_lab") {
                     $labController->createLab();
+                } elseif ($segments[1] === "update_name") {
+                    $labController->updateName();
+                } elseif ($segments[1] === "update_institution") {
+                    $labController->updateInstitution();
+                } elseif ($segments[1] === "update_campus") {
+                    $labController->updateCampus();
+                } elseif ($segments[1] === "update_specialization") {
+                    $labController->updateSpecialization();
+                } elseif ($segments[1] === "update_location") {
+                    $labController->updateLocation();
+                } elseif ($segments[1] === "update_description") {
+                    $labController->updateDescription();
+                } elseif ($segments[1] === "update_capacity") {
+                    $labController->updateCapacity();
+                } elseif ($segments[1] === "update_admin_id") {
+                    $labController->updateAdminId();
+                } elseif ($segments[1] === "delete_lab") {
+                    $labController->deleteLab();
                 } else {
                     echo json_encode(["status" => "error", "message" => "Invalid labs POST action"]);
                 }
