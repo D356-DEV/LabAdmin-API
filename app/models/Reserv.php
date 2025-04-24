@@ -19,8 +19,7 @@ class Reserv
         try {
             $stmt = $this->pdo->prepare(
                 "INSERT INTO reservs (reserv_date, start_time, end_time, lab_id, user_id, description)
-                 VALUES (:reserv_date, :start_time, :end_time, :lab_id, :user_id, :description)
-                "
+                 VALUES (:reserv_date, :start_time, :end_time, :lab_id, :user_id, :description)"
             );
             $stmt->execute([
                 ":reserv_date" => $reserv_date,
@@ -43,8 +42,8 @@ class Reserv
         try {
             $stmt = $this->pdo->prepare(
                 "UPDATE reservs 
-             SET status = 'accepted', admin_id = :admin_id 
-             WHERE id = :reserv_id"
+                 SET status = 'accepted', admin_id = :admin_id 
+                 WHERE reserv_id = :reserv_id"
             );
             $stmt->execute([
                 ':admin_id' => $admin_id,
@@ -63,8 +62,8 @@ class Reserv
         try {
             $stmt = $this->pdo->prepare(
                 "UPDATE reservs 
-             SET status = 'rejected', admin_id = :admin_id 
-             WHERE id = :reserv_id"
+                 SET status = 'rejected', admin_id = :admin_id 
+                 WHERE reserv_id = :reserv_id"
             );
             $stmt->execute([
                 ':admin_id' => $admin_id,
@@ -92,7 +91,7 @@ class Reserv
     public function getReservById(int $reserv_id): ?array
     {
         try {
-            $stmt = $this->pdo->prepare("SELECT * FROM reservs WHERE id = :reserv_id");
+            $stmt = $this->pdo->prepare("SELECT * FROM reservs WHERE reserv_id = :reserv_id");
             $stmt->execute([':reserv_id' => $reserv_id]);
             $reserv = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -106,7 +105,11 @@ class Reserv
     public function getReservsByLabId(int $lab_id): array
     {
         try {
-            $stmt = $this->pdo->prepare("SELECT * FROM reservs WHERE lab_id = :lab_id ORDER BY reserv_date DESC, start_time ASC");
+            $stmt = $this->pdo->prepare(
+                "SELECT * FROM reservs 
+                 WHERE lab_id = :lab_id 
+                 ORDER BY reserv_date DESC, start_time ASC"
+            );
             $stmt->execute([':lab_id' => $lab_id]);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -118,7 +121,11 @@ class Reserv
     public function getReservsByUserId(int $user_id): array
     {
         try {
-            $stmt = $this->pdo->prepare("SELECT * FROM reservs WHERE user_id = :user_id ORDER BY reserv_date DESC, start_time ASC");
+            $stmt = $this->pdo->prepare(
+                "SELECT * FROM reservs 
+                 WHERE user_id = :user_id 
+                 ORDER BY reserv_date DESC, start_time ASC"
+            );
             $stmt->execute([':user_id' => $user_id]);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -132,8 +139,8 @@ class Reserv
         try {
             $stmt = $this->pdo->prepare(
                 "SELECT * FROM reservs 
-             WHERE lab_id = :lab_id AND status = :status 
-             ORDER BY reserv_date DESC, start_time ASC"
+                 WHERE lab_id = :lab_id AND status = :status 
+                 ORDER BY reserv_date DESC, start_time ASC"
             );
             $stmt->execute([
                 ':lab_id' => $lab_id,
@@ -145,5 +152,4 @@ class Reserv
             return [];
         }
     }
-
 }

@@ -9,6 +9,7 @@ require_once __DIR__ . "/../app/controllers/AdminController.php";
 require_once __DIR__ . "/../app/controllers/LabController.php";
 require_once __DIR__ . "/../app/controllers/BotController.php";
 require_once __DIR__ . "/../app/controllers/ChatBot.php";
+require_once __DIR__ . "/../app/controllers/ReservController.php";
 
 // Get request method and path
 $method = $_SERVER['REQUEST_METHOD'];
@@ -21,6 +22,7 @@ $adminController = new AdminController($pdo);
 $labController = new LabController($pdo);
 $botController = new BotController($pdo);
 $chatBot = new ChatBot();
+$reservController = new ReservController($pdo);
 
 switch ($segments[0]) {
 
