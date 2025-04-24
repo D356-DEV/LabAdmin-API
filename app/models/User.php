@@ -100,6 +100,31 @@ class User
         return $user ?: null;
     }
 
+    // Is email already in use?
+    public function emailInUse($email): bool
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt->execute([$email]);
+        return $stmt->fetch() ? true : false;
+    }
+
+    // Get email by usrname
+    public function getEmailByUsername($username): ?string
+    {
+        $stmt = $this->pdo->prepare("SELECT email FROM users WHERE username = ?");
+        $stmt->execute([$username]);
+        $email = $stmt->fetch();
+        return $email ? $email['email'] : null;
+    }
+
+    // Is username already in use?
+    public function usernameInUse($username): bool
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE username = ?");
+        $stmt->execute([$username]);
+        return $stmt->fetch() ? true : false;
+    }
+
     // Update Password
     public function updatePassword(int $user_id, string $password, string $session_token): bool
     {
@@ -284,32 +309,7 @@ class User
         return $stmt->rowCount() > 0;
     }
 
-    // Is email already in use?
-    public function emailInUse($email): bool
-    {
-        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE email = ?");
-        $stmt->execute([$email]);
-        return $stmt->fetch() ? true : false;
-    }
-
-    // Get email by usrname
-    public function getEmailByUsername($username): ?string
-    {
-        $stmt = $this->pdo->prepare("SELECT email FROM users WHERE username = ?");
-        $stmt->execute([$username]);
-        $email = $stmt->fetch();
-        return $email ? $email['email'] : null;
-    }
-
-    // Is username already in use?
-    public function usernameInUse($username): bool
-    {
-        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE username = ?");
-        $stmt->execute([$username]);
-        return $stmt->fetch() ? true : false;
-    }
-
-    // Update user Profile Image
+    // Update Profile Image
     public function updateProfileImage($user_id, $session_token, $profile_image): bool
     {
         $stmt = $this->pdo->prepare("UPDATE users SET profile_image = ? WHERE user_id = ? AND session_token = ? AND token_expiry > NOW()");

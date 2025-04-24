@@ -155,6 +155,47 @@ switch ($segments[0]) {
         }
         break;
 
+    // RESERVS ENDPOINTS
+    case "reservs":
+        if (!isset($segments[1])) {
+            echo json_encode(["status" => "error", "message" => "Missing reservs action"]);
+            exit;
+        }
+
+        switch ($method) {
+            case "GET":
+                if ($segments[1] === "get_all") {
+                    $reservController->getAllReservs();
+                } elseif ($segments[1] === "get_by_id") {
+                    $reservController->getReservById();
+                } elseif ($segments[1] === "by_lab") {
+                    $reservController->getReservsByLabId();
+                } elseif ($segments[1] === "by_user") {
+                    $reservController->getReservsByUserId();
+                } elseif ($segments[1] === "by_lab_status") {
+                    $reservController->getReservsByLabIdAndStatus();
+                } else {
+                    echo json_encode(["status" => "error", "message" => "Invalid reservs GET action"]);
+                }
+                break;
+
+            case "POST":
+                if ($segments[1] === "create") {
+                    $reservController->createReserv();
+                } elseif ($segments[1] === "accept") {
+                    $reservController->acceptReserv();
+                } elseif ($segments[1] === "reject") {
+                    $reservController->rejectReserv();
+                } else {
+                    echo json_encode(["status" => "error", "message" => "Invalid reservs POST action"]);
+                }
+                break;
+
+            default:
+                echo json_encode(["status" => "error", "message" => "Invalid method for reservs endpoint"]);
+        }
+        break;
+
     // BOT ENDPOINTS
     case "bot":
         if (!isset($segments[1])) {
