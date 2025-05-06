@@ -52,7 +52,7 @@ class Notice
     public function deleteNotice($admin_id, $notice_id): bool
     {
         try {
-            $stmt = $this->pdo->prepare("DELETE FROM notices WHERE admin_id = :admin_id AND id = :notice_id");
+            $stmt = $this->pdo->prepare("DELETE FROM notices WHERE admin_id = :admin_id AND notice_id = :notice_id");
             $stmt->execute([
                 ':admin_id' => $admin_id,
                 ':notice_id' => $notice_id

@@ -23,7 +23,8 @@ class ScheduleController
         }
 
         $requiredFields = [
-            'lab_id', 'active_monday', 'start_time_monday', 'end_time_monday',
+            'lab_id', 
+            'active_monday', 'start_time_monday', 'end_time_monday',
             'active_tuesday', 'start_time_tuesday', 'end_time_tuesday',
             'active_wednesday', 'start_time_wednesday', 'end_time_wednesday',
             'active_thursday', 'start_time_thursday', 'end_time_thursday',
