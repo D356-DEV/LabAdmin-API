@@ -11,6 +11,7 @@ require_once __DIR__ . "/../app/controllers/BotController.php";
 require_once __DIR__ . "/../app/controllers/ChatBot.php";
 require_once __DIR__ . "/../app/controllers/ReservController.php";
 require_once __DIR__ . "/../app/controllers/ScheduleController.php";
+require_once __DIR__ . "/../app/controllers/NoticeController.php";
 
 // Get request method and path
 $method = $_SERVER['REQUEST_METHOD'];
@@ -25,6 +26,7 @@ $botController = new BotController($pdo);
 $chatBot = new ChatBot();
 $reservController = new ReservController($pdo);
 $scheduleController = new ScheduleController($pdo);
+$noticeController = new NoticeController($pdo);
 
 switch ($segments[0]) {
 
@@ -229,6 +231,38 @@ switch ($segments[0]) {
 
             default:
                 echo json_encode(["status" => "error", "message" => "Invalid method for schedules endpoint"]);
+        }
+        break;
+
+    // NOTICES ENDPOINTS
+    case "notices":
+        if (!isset($segments[1])) {
+            echo json_encode(["status" => "error", "message" => "Missing notices action"]);
+            exit;
+        }
+        switch ($method) {
+            case "GET":
+                if ($segments[1] === "get_by_lab") {
+                    $noticeController->getNoticesByLabId();
+                } elseif ($segments[1] === "get_by_admin") {
+                    $noticeController->getNoticesByAdminId();
+                } else {
+                    echo json_encode(["status" => "error", "message" => "Invalid notices GET action"]);
+                }
+                break;
+
+            case "POST":
+                if ($segments[1] === "create_notice") {
+                    $noticeController->createNotice();
+                } elseif ($segments[1] === "delete_notice") {
+                    $noticeController->deleteNotice();
+                } else {
+                    echo json_encode(["status" => "error", "message" => "Invalid notices POST action"]);
+                }
+                break;
+
+            default:
+                echo json_encode(["status" => "error", "message" => "Invalid method for notices endpoint"]);
         }
         break;
 
