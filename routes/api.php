@@ -10,6 +10,7 @@ require_once __DIR__ . "/../app/controllers/LabController.php";
 require_once __DIR__ . "/../app/controllers/BotController.php";
 require_once __DIR__ . "/../app/controllers/ChatBot.php";
 require_once __DIR__ . "/../app/controllers/ReservController.php";
+require_once __DIR__ . "/../app/controllers/ScheduleController.php";
 
 // Get request method and path
 $method = $_SERVER['REQUEST_METHOD'];
@@ -23,6 +24,7 @@ $labController = new LabController($pdo);
 $botController = new BotController($pdo);
 $chatBot = new ChatBot();
 $reservController = new ReservController($pdo);
+$scheduleController = new ScheduleController($pdo);
 
 switch ($segments[0]) {
 
@@ -195,6 +197,38 @@ switch ($segments[0]) {
 
             default:
                 echo json_encode(["status" => "error", "message" => "Invalid method for reservs endpoint"]);
+        }
+        break;
+
+    // SCHEDULES ENDPOINTS
+    case "schedules":
+        if (!isset($segments[1])) {
+            echo json_encode(["status" => "error", "message" => "Missing schedules action"]);
+            exit;
+        }
+        switch ($method) {
+            case "GET":
+                if ($segments[1] === "get_by_id") {
+                    $scheduleController->getById();
+                } elseif ($segments[1] === "get_by_lab") {
+                    $scheduleController->getByLabId();
+                } else {
+                    echo json_encode(["status" => "error", "message" => "Invalid schedules GET action"]);
+                }
+                break;
+
+            case "POST":
+                if ($segments[1] === "create_schedule") {
+                    $scheduleController->createSchedule();
+                } elseif ($segments[1] === "update_schedule") {
+                    $scheduleController->updateSchedule();
+                } else {
+                    echo json_encode(["status" => "error", "message" => "Invalid schedules POST action"]);
+                }
+                break;
+
+            default:
+                echo json_encode(["status" => "error", "message" => "Invalid method for schedules endpoint"]);
         }
         break;
 
